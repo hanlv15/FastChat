@@ -38,7 +38,7 @@ python -m fastchat.serve.openai_api_server --host localhost --port 8000
 
 # 调试
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.cli \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/20231218-18:54:40-split_type=8:2-train_ratio=0.5/checkpoint-304 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/20231218-07:43:24-split_type=8:2-train_ratio=1.0/checkpoint-609 \
     --debug
 
 # UI
