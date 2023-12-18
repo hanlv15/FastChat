@@ -1323,7 +1323,7 @@ register_conv_template(
         roles=("<|im_start|>user", "<|im_start|>assistant"),
         sep_style=SeparatorStyle.CHATML,
         sep="<|im_end|>",
-        # stop_str="<|im_end|>",
+        stop_str="<|im_end|>",
     )
 )
 
