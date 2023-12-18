@@ -14,7 +14,7 @@ import uuid
 import gradio as gr
 import requests
 
-from fastchat.conversation import SeparatorStyle
+from fastchat.conversation import SeparatorStyle, Conversation
 from fastchat.constants import (
     LOGDIR,
     WORKER_API_TIMEOUT,
@@ -85,7 +85,29 @@ openai_compatible_models_info = {}
 
 class State:
     def __init__(self, model_name):
-        self.conv = get_conversation_template(model_name)
+        # self.conv = get_conversation_template(model_name)
+
+        ret = requests.post(
+            controller_url + "/get_worker_address", json={"model": model_name}
+        )
+        worker_addr = ret.json()["address"]
+        ret = requests.post(worker_addr + "/worker_get_conv_template")
+        conv = ret.json()["conv"]
+        self.conv = Conversation(
+            name=conv["name"],
+            system_template=conv["system_template"],
+            system_message=conv["system_message"],
+            roles=conv["roles"],
+            messages=conv["messages"],
+            offset=conv["offset"],
+            sep_style=conv["sep_style"],
+            sep=conv["sep"],
+            sep2=conv["sep2"],
+            stop_str=conv["stop_str"],
+            stop_token_ids=conv["stop_token_ids"],
+        )
+        logger.info(f"model_name: {model_name}, worker_addr: {worker_addr}, worker_get_conv_template")
+
         self.conv_id = uuid.uuid4().hex
         self.skip_next = False
         self.model_name = model_name

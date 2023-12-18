@@ -1,0 +1,56 @@
+启动fastchat
+
+python3 -m fastchat.serve.controller
+
+# 多模型
+python -m fastchat.serve.multi_model_worker \
+    --model-path /home/css/models/Orca-2-7b \
+    --model-names Orca-2-7b \
+    --model-path /home/css/models/openchat_3.5 \
+    --model-names openchat_3.5 \
+    --num-gpus 2 --max-gpu-memory 22GiB
+
+# worker 0
+CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/"2023-12-15 21:05:31 split_type=8:2 train_ratio=1.0"/peft-checkpoint-650 \
+    --controller http://localhost:21001 \
+    --port 31000 \
+    --worker http://localhost:31000
+
+# worker 1
+CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/orca-2-7b/old/without_info/"2023-12-16 16:00:15 split_type=8:2 train_ratio=0.9"/checkpoint-585 \
+    --controller http://localhost:21001 \
+    --port 31001 \
+    --worker http://localhost:31001
+
+# worker 2
+CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=10/without_info/"2023-12-15 19:23:55 split_type=5:5 train_ratio=1.0"/checkpoint-406 \
+    --controller http://localhost:21001 \
+    --port 31002 \
+    --worker http://localhost:31002
+
+
+
+# OpenAI API
+python -m fastchat.serve.openai_api_server --host localhost --port 8000
+
+# 调试
+CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.cli \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/20231218-18:54:40-split_type=8:2-train_ratio=0.5/checkpoint-304 \
+    --debug
+
+# UI
+python3 -m fastchat.serve.gradio_web_server
+
+# swift UI
+CUDA_VISIBLE_DEVICES=1 swift app-ui --ckpt_dir /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/20231218-07:43:24-split_type=8:2-train_ratio=1.0/checkpoint-609
+
+CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
+    --model-path /home/css/models/Orca-2-7b \
+    --controller http://localhost:21001 \
+    --port 31000 \
+    --worker http://localhost:31000
+
+According to the content of the TEXT, please classify it as TRUE or FALSE. If the content described by the TEXT is correct, then classify it as TRUE; if the content described by the TEXT is incorrect, then classify it as FALSE.\nTEXT: A map shows that Madagascar is the only country without coronavirus cases.
