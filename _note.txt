@@ -1,6 +1,8 @@
 启动fastchat
 
-python3 -m fastchat.serve.controller
+python3 -m fastchat.serve.controller --port 21005
+python3 -m fastchat.serve.controller --port 21006
+python3 -m fastchat.serve.controller --port 21007
 
 # 多模型
 python -m fastchat.serve.multi_model_worker \
@@ -12,33 +14,47 @@ python -m fastchat.serve.multi_model_worker \
 
 # worker 0
 CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/"2023-12-15 21:05:31 split_type=8:2 train_ratio=1.0"/peft-checkpoint-650 \
-    --controller http://localhost:21001 \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --controller http://localhost:21005 \
     --port 31000 \
     --worker http://localhost:31000
 
+
 # worker 1
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/orca-2-7b/old/without_info/"2023-12-16 16:00:15 split_type=8:2 train_ratio=0.9"/checkpoint-585 \
-    --controller http://localhost:21001 \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --controller http://localhost:21005 \
     --port 31001 \
     --worker http://localhost:31001
 
+CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --controller http://localhost:21006 \
+    --port 31001 \
+    --worker http://localhost:31001
+
+
 # worker 2
 CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=10/without_info/"2023-12-15 19:23:55 split_type=5:5 train_ratio=1.0"/checkpoint-406 \
-    --controller http://localhost:21001 \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --controller http://localhost:21005 \
     --port 31002 \
     --worker http://localhost:31002
 
-
+CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --controller http://localhost:21007 \
+    --port 31002 \
+    --worker http://localhost:31002
 
 # OpenAI API
-python -m fastchat.serve.openai_api_server --host localhost --port 8000
+python -m fastchat.serve.openai_api_server --controller http://localhost:21005 --host localhost --port 8001
+python -m fastchat.serve.openai_api_server --controller http://localhost:21006 --host localhost --port 8002
+python -m fastchat.serve.openai_api_server --controller http://localhost:21007 --host localhost --port 8003
 
 # 调试
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.cli \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/without_info/20231218-07:43:24-split_type=8:2-train_ratio=1.0/checkpoint-609 \
+    --model-path /home/css/models/openchat-3.5-1210 \
     --debug
 
 # UI
