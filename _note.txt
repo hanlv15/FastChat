@@ -14,7 +14,7 @@ python -m fastchat.serve.multi_model_worker \
 
 # worker 0
 CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.4-20231231-02:17:54/checkpoint-243 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.7-20231231-03:02:46/checkpoint-426 \
     --controller http://localhost:21005 \
     --port 31000 \
     --worker http://localhost:31000

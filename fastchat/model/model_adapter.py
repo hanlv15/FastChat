@@ -372,7 +372,7 @@ def get_generate_stream_function(model: torch.nn.Module, model_path: str):
     model_type = str(type(model)).lower()
     is_peft = "peft" in model_type
     if is_peft:
-        model.set_adapter(model_path)
+        # model.set_adapter(model_path)
         model_type = str(type(model.base_model.model))
 
     is_chatglm = "chatglm" in model_type
