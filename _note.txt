@@ -14,7 +14,7 @@ python -m fastchat.serve.multi_model_worker \
 
 # worker 0
 CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
-    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.4-20231231-02:17:54/checkpoint-243 \
     --controller http://localhost:21005 \
     --port 31000 \
     --worker http://localhost:31000
@@ -22,13 +22,13 @@ CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
 
 # worker 1
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
-    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.5-20231231-02:29:46/checkpoint-304 \
     --controller http://localhost:21005 \
     --port 31001 \
     --worker http://localhost:31001
 
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
-    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/with_info/data3/lr=6e-5/split_type=8:2-train_ratio=1.0-20231231-01:24:39/checkpoint-609 \
     --controller http://localhost:21006 \
     --port 31001 \
     --worker http://localhost:31001
@@ -36,7 +36,7 @@ CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
 
 # worker 2
 CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
-    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.6-20231231-02:44:59/checkpoint-365 \
     --controller http://localhost:21005 \
     --port 31002 \
     --worker http://localhost:31002
