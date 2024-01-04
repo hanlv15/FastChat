@@ -2069,7 +2069,27 @@ class SolarAdapter(BaseModelAdapter):
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("solar")
 
+class NeuralChatAdapter(BaseModelAdapter):
+    """The model adapter for 
+    Intel/neural-chat-7b-v3-3-Slerp
+    Intel/neural-chat-7b-v3
+    """
 
+    def match(self, model_path: str):
+        return "neural-chat-7b-v3" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("neural")
+    
+class MarcoroniAdapter(BaseModelAdapter):
+    """The model adapter for AIDC-ai-business/Marcoroni-7B-v3"""
+
+    def match(self, model_path: str):
+        return "marcoroni" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("marcoroni")
+    
 # Note: the registration order matters.
 # The one registered earlier has a higher matching priority.
 register_model_adapter(PeftModelAdapter)
@@ -2151,6 +2171,8 @@ register_model_adapter(DeepseekChatAdapter)
 register_model_adapter(MetaMathAdapter)
 register_model_adapter(BagelAdapter)
 register_model_adapter(SolarAdapter)
+register_model_adapter(NeuralChatAdapter)
+register_model_adapter(MarcoroniAdapter)
 
 # After all adapters, try the default base adapter.
 register_model_adapter(BaseModelAdapter)

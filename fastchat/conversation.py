@@ -1394,6 +1394,32 @@ register_conv_template(
     )
 )
 
+# Intel/neural-chat-7b
+register_conv_template(
+    Conversation(
+        name="neural",
+        system_message="You are a helpful assistant.",
+        system_template="### System:\n{system_message}",
+        roles=("### User", "### Assistant"),
+        sep_style=SeparatorStyle.ROBIN,
+        sep="\n",
+        stop_str="</s>",
+    )
+)
+
+# AIDC-ai-business/Marcoroni-7B-v3
+register_conv_template(
+    Conversation(
+        name="marcoroni",
+        system_message="",
+        roles=("### Instruction:\n", "### Response:"),
+        sep_style=SeparatorStyle.ADD_NEW_LINE_SINGLE,
+        sep="\n\n",
+        stop_str="</s>",
+    )
+)
+
+
 if __name__ == "__main__":
     from fastchat.conversation import get_conv_template
 

@@ -14,7 +14,7 @@ python -m fastchat.serve.multi_model_worker \
 
 # worker 0
 CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.7-20231231-03:02:46/checkpoint-426 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/neural-chat-7b-v3-3/with_solar_info/data3.3/lr=7e-5/split_type=8:2-train_ratio=1.0-20240104-01:17:56/checkpoint-609 \
     --controller http://localhost:21005 \
     --port 31000 \
     --worker http://localhost:31000
@@ -22,7 +22,7 @@ CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
 
 # worker 1
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.5-20231231-02:29:46/checkpoint-304 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/neural-chat-7b-v3-3-Slerp/with_solar_info/data3.3/lr=2e-5/split_type=8:2-train_ratio=1.0-20240104-11:25:56/checkpoint-609 \
     --controller http://localhost:21005 \
     --port 31001 \
     --worker http://localhost:31001
@@ -36,7 +36,7 @@ CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
 
 # worker 2
 CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/without_info/data3/lr=6e-5/split_type=8:2-train_ratio=0.6-20231231-02:44:59/checkpoint-365 \
+    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/neural-chat-7b-v3-3-Slerp/with_solar_info/data3.3/lr=1.1e-4/split_type=8:2-train_ratio=1.0-20240104-12:10:26/checkpoint-609-1 \
     --controller http://localhost:21005 \
     --port 31002 \
     --worker http://localhost:31002
@@ -54,7 +54,7 @@ python -m fastchat.serve.openai_api_server --controller http://localhost:21007 -
 
 # 调试
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.cli \
-    --model-path /home/css/models/openchat-3.5-1210 \
+    --model-path /home/css/models/Marcoroni-7B-v3 \
     --debug
 
 # UI
@@ -69,4 +69,3 @@ CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
     --port 31000 \
     --worker http://localhost:31000
 
-According to the content of the TEXT, please classify it as TRUE or FALSE. If the content described by the TEXT is correct, then classify it as TRUE; if the content described by the TEXT is incorrect, then classify it as FALSE.\nTEXT: A map shows that Madagascar is the only country without coronavirus cases.
