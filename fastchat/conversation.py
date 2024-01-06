@@ -31,7 +31,7 @@ class SeparatorStyle(IntEnum):
     CHATGLM3 = auto()
     DEEPSEEK_CHAT = auto()
     METAMATH = auto()
-
+    CHATML2 = auto() # 只有system message非空时才使用system_template
 
 @dataclasses.dataclass
 class Conversation:
@@ -244,6 +244,14 @@ class Conversation:
                     ret += role + ": " + message + seps[i % 2]
                 else:
                     ret += role + ":"
+            return ret
+        elif self.sep_style == SeparatorStyle.CHATML2:
+            ret = "" if self.system_message == "" else system_prompt + self.sep + "\n"
+            for role, message in self.messages:
+                if message:
+                    ret += role + "\n" + message + self.sep + "\n"
+                else:
+                    ret += role + "\n"
             return ret
         else:
             raise ValueError(f"Invalid style: {self.sep_style}")
@@ -1419,6 +1427,18 @@ register_conv_template(
     )
 )
 
+# openaccess-ai-collective/DPOpenHermes-7B-v2
+register_conv_template(
+    Conversation(
+        name="dpopenhermes",
+        system_template="<|im_start|>system\n{system_message}",
+        system_message="",
+        roles=("<|im_start|>user", "<|im_start|>assistant"),
+        sep_style=SeparatorStyle.CHATML2,
+        sep="<|im_end|>",
+        stop_token_ids=[32000, 32001],
+    )
+)
 
 if __name__ == "__main__":
     from fastchat.conversation import get_conv_template
