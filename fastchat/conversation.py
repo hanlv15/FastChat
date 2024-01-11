@@ -1395,7 +1395,7 @@ register_conv_template(
     Conversation(
         name="solar",
         system_message="",
-        roles=("### User", "### Assistant"),
+        roles=("### User:", "### Assistant:"),
         sep_style=SeparatorStyle.ADD_NEW_LINE_SINGLE,
         sep="\n\n",
         stop_str="</s>",
