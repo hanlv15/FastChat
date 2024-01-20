@@ -2130,6 +2130,78 @@ class SolarAdapter(BaseModelAdapter):
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("solar")
 
+class NeuralChatAdapter(BaseModelAdapter):
+    """The model adapter for 
+    Intel/neural-chat-7b-v3-3-Slerp
+    Intel/neural-chat-7b-v3
+    """
+
+    def match(self, model_path: str):
+        return "neural-chat-7b-v3" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("neural")
+    
+class MarcoroniAdapter(BaseModelAdapter):
+    """The model adapter for AIDC-ai-business/Marcoroni-7B-v3"""
+
+    def match(self, model_path: str):
+        return "marcoroni" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("marcoroni")
+
+class DPOpenHermesAdapter(BaseModelAdapter):
+    """The model adapter for openaccess-ai-collective/DPOpenHermes-7B-v2"""
+
+    def match(self, model_path: str):
+        return "dpopenhermes" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("dpopenhermes")
+
+class NeuralBeagle14Adapter(BaseModelAdapter):
+    """The model adapter for mlabonne/NeuralBeagle14-7B"""
+
+    def match(self, model_path: str):
+        return "neuralbeagle14" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("neuralbeagle14")
+    
+class Yuan2Adapter(BaseModelAdapter):
+    """The model adapter for Yuan"""
+
+    def match(self, model_path: str):
+        return "yuan" in model_path.lower()
+
+    def load_model(self, model_path: str, from_pretrained_kwargs: dict):
+        model, tokenizer = super().load_model(model_path, from_pretrained_kwargs)
+        tokenizer.add_tokens(
+            [
+                "<sep>",
+                "<pad>",
+                "<mask>",
+                "<predict>",
+                "<FIM_SUFFIX>",
+                "<FIM_PREFIX>",
+                "<FIM_MIDDLE>",
+                "<commit_before>",
+                "<commit_msg>",
+                "<commit_after>",
+                "<jupyter_start>",
+                "<jupyter_text>",
+                "<jupyter_code>",
+                "<jupyter_output>",
+                "<empty_output>",
+            ],
+            special_tokens=True,
+        )
+        return model, tokenizer
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("yuan")
+
 
 # Note: the registration order matters.
 # The one registered earlier has a higher matching priority.
@@ -2216,6 +2288,11 @@ register_model_adapter(DeepseekChatAdapter)
 register_model_adapter(MetaMathAdapter)
 register_model_adapter(BagelAdapter)
 register_model_adapter(SolarAdapter)
+register_model_adapter(NeuralChatAdapter)
+register_model_adapter(MarcoroniAdapter)
+register_model_adapter(DPOpenHermesAdapter)
+register_model_adapter(Yuan2Adapter)
+register_model_adapter(NeuralBeagle14Adapter)
 
 # After all adapters, try the default base adapter.
 register_model_adapter(BaseModelAdapter)
