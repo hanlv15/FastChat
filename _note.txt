@@ -5,28 +5,41 @@ python3 -m fastchat.serve.controller --port 21006
 python3 -m fastchat.serve.controller --port 21007
 
 # 多模型
-CUDA_VISIBLE_DEVICES=1,2 python -m fastchat.serve.multi_model_worker \
-    --model-path /home/css/models/Orca-2-7b \
-    --model-names Orca-2-7b \
+CUDA_VISIBLE_DEVICES=0,2 python -m fastchat.serve.multi_model_worker \
+    --model-path /home/css/models/Orca-2-13b \
+    --model-names Orca-2-13b \
     --model-path /home/css/models/openchat_3.5 \
     --model-names openchat_3.5 \
-    --num-gpus 2 --max-gpu-memory 22GiB
+    --num-gpus 2 --max-gpu-memory 12GiB
+
+--num-gpus 3 --max-gpu-memory 8GiB
+
+CUDA_VISIBLE_DEVICES=0,1,2 python -m fastchat.serve.multi_model_worker \
+    --model-path /home/css/models/Orca-2-13b \
+    --model-names Orca-2-13b \
+    --controller http://localhost:21005 \
+    --num-gpus 3 --max-gpu-memory 9GiB
 
 # worker 0
-CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/with_solar_info/brave/data1/lr=6e-5/lora_rank=8/split_type=8:2-train_ratio=1.0-20240118-09:36:28/checkpoint-609 \
+CUDA_VISIBLE_DEVICES=0 \
+PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128 \
+python3 -m fastchat.serve.model_worker \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
     --controller http://localhost:21005 \
     --port 31000 \
-    --worker http://localhost:31000
-
+    --worker http://localhost:31000 \
+    --model-names SOLAR-10.7B-Instruct-v1.0-1
 
 # worker 1
-CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/with_solar_info/brave/data1/lr=1.2e-4/lora_rank=16/split_type=8:2-train_ratio=1.0-20240117-20:14:57/checkpoint-609 \
+CUDA_VISIBLE_DEVICES=1 \
+PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128 \
+python3 -m fastchat.serve.model_worker \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
     --controller http://localhost:21005 \
     --port 31001 \
-    --worker http://localhost:31001
-
+    --worker http://localhost:31001 \
+    --model-names SOLAR-10.7B-Instruct-v1.0-2
+  
 CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
     --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/with_solar_info/brave/data1/lr=2e-4/lora_rank=8/split_type=8:2-train_ratio=1.0-20240117-18:11:17/checkpoint-609 \
     --model-names checkpoint-609-1 \
@@ -43,11 +56,14 @@ CUDA_VISIBLE_DEVICES=1 python3 -m fastchat.serve.model_worker \
 
 
 # worker 2
-CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
-    --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/with_solar_info/data4.1/lr=9e-5/split_type=8:2-train_ratio=1.0-20240111-05:58:10/checkpoint-609-2 \
+CUDA_VISIBLE_DEVICES=1,2 \
+PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128 \
+python3 -m fastchat.serve.model_worker \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
     --controller http://localhost:21005 \
     --port 31002 \
-    --worker http://localhost:31002
+    --worker http://localhost:31002 \
+    --model-names SOLAR-10.7B-Instruct-v1.0-3
 
 CUDA_VISIBLE_DEVICES=2 python3 -m fastchat.serve.model_worker \
     --model-path /home/hanlv/workspace/code/research/infodemic/LLM/swift/examples/pytorch/llm/output/openchat_3.5/eval_times=0/with_solar_info/brave/data1/lr=1.8e-4/lora_rank=8/split_type=8:2-train_ratio=1.0-20240117-14:04:19/checkpoint-609 \
@@ -69,7 +85,7 @@ python -m fastchat.serve.openai_api_server --controller http://localhost:21007 -
 
 # 调试
 CUDA_VISIBLE_DEVICES=0 python3 -m fastchat.serve.cli \
-    --model-path /home/css/models/NeuralBeagle14-7B \
+    --model-path /home/css/models/SOLAR-10.7B-Instruct-v1.0 \
     --debug
 
 # UI

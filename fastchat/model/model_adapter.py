@@ -2125,11 +2125,19 @@ class SolarAdapter(BaseModelAdapter):
     """The model adapter for upstage/SOLAR-10.7B-Instruct-v1.0"""
 
     def match(self, model_path: str):
-        return "solar-" in model_path.lower() and "instruct" in model_path.lower()
+        return "solar-10.7b" in model_path.lower() and "instruct" in model_path.lower()
 
     def get_default_conv_template(self, model_path: str) -> Conversation:
         return get_conv_template("solar")
 
+class SauerkrautLMSolarAdapter(BaseModelAdapter):
+
+    def match(self, model_path: str):
+        return "solar-" in model_path.lower() and "sauerkrautlm" in model_path.lower()
+
+    def get_default_conv_template(self, model_path: str) -> Conversation:
+        return get_conv_template("solar")
+    
 class NeuralChatAdapter(BaseModelAdapter):
     """The model adapter for 
     Intel/neural-chat-7b-v3-3-Slerp
@@ -2288,6 +2296,7 @@ register_model_adapter(DeepseekChatAdapter)
 register_model_adapter(MetaMathAdapter)
 register_model_adapter(BagelAdapter)
 register_model_adapter(SolarAdapter)
+register_model_adapter(SauerkrautLMSolarAdapter)
 register_model_adapter(NeuralChatAdapter)
 register_model_adapter(MarcoroniAdapter)
 register_model_adapter(DPOpenHermesAdapter)
